@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examiner Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom right, #1e3c72, #2a5298);
+            color: #f9f9f9;
+        }
+
+        .navbar {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: white;
+        }
+
+        .card {
+            background: linear-gradient(to bottom, #ffffff, #f7f7f7);
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            font-weight: 600;
+            color: white;
+        }
+
+        label {
+            color: #555;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
+        }
+
+        .btn-success {
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            border: none;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(90deg, #2a5298, #1e3c72);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .text-center p {
+            font-size: 1rem;
+            color: #ccc;
+        }
+
+        img, #reader {
+            border: 5px solid #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+        }
+
+        footer {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        footer a {
+            color: #f9f9f9;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Examiner Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="container mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Dashboard Section -->
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h2 class="text-center mb-4">Examiner Dashboard</h2>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form method="GET" action="/verify">
+                            <div class="mb-3">
+                                <label for="roll_number" class="form-label">Enter Roll Number</label>
+                                <input type="text" class="form-control" id="roll_number" name="roll_number" placeholder="Enter Student Roll Number" required>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Verify Admit Card</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <p>Or scan the QR code on the hall ticket for quick verification.</p>
+                    <div id="reader" style="width: 300px; margin: 0 auto;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-3 mt-5">
+        <p>© 2024 Hall Ticket Generator - All Rights Reserved | <a href="/privacy">Privacy Policy</a></p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Include html5-qrcode library -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`Scan result: ${decodedText}`);
+            let rollNumber = decodedText;
+
+            if (decodedText.includes('?roll_number=')) {
+                try {
+                    const queryString = decodedText.split('?')[1];
+                    const urlParams = new URLSearchParams(queryString);
+                    rollNumber = urlParams.get('roll_number');
+                } catch (e) {
+                    console.error('Error parsing URL:', e);
+                }
+            } else if (decodedText.startsWith('{')) {
+                try {
+                    const data = JSON.parse(decodedText);
+                    if (data.roll_number) {
+                        rollNumber = data.roll_number;
+                    }
+                } catch (e) {
+                    console.error('Error parsing JSON:', e);
+                }
+            }
+
+            if (rollNumber) {
+                window.location.href = `/verify?roll_number=${encodeURIComponent(rollNumber)}`;
+            } else {
+                alert('Invalid QR Code content!');
+            }
+        }
+
+        function onScanError(errorMessage) {
+            // console.warn(`QR scan error: ${errorMessage}`);
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 300 });
+        html5QrcodeScanner.render(onScanSuccess, onScanError);
+    </script>
+</body>
+</html>

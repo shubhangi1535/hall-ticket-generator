@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hall Ticket Generator</title>
+    
+    <!-- Bootstrap & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #061A40, #034078);
+            border-bottom: 3px solid #FFC107;
+        }
+
+        .navbar-brand {
+            color: #FFC107 !important;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-link {
+            color: #FFF !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: #FFC107 !important;
+        }
+
+        .hero-section {
+            position: relative;
+            background: url('/static/img.jpg') center/cover no-repeat;
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-warning {
+            background-color: #FFC107;
+            color: #061A40;
+            font-weight: 600;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            color: white;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+
+        #about i {
+            font-size: 3rem;
+            color: #FFC107;
+            margin-bottom: 15px;
+        }
+
+        .card-custom {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background-color: #034078;
+            color: #FFF;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        footer i {
+            margin: 0 10px;
+            color: #FFC107;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #034078;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            display: none;
+            z-index: 1000;
+            transition: 0.3s ease;
+        }
+
+        .scroll-to-top:hover {
+            background-color: #022C5A;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-section p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-university me-2"></i>Graphic Era University</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#student">Student</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#examiner">Examiner</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-content container">
+            <h1>Admit Card Generator</h1>
+            <p>Efficiently Generate and Verify Admit Cards</p>
+            <a href="#student" class="btn btn-warning me-3"><i class="fas fa-user-graduate me-2"></i>Student Section</a>
+            <a href="#examiner" class="btn btn-light"><i class="fas fa-user-shield me-2"></i>Examiner Section</a>
+            <a href="/register" class="btn btn-primary ms-3"><i class="fas fa-user-plus me-2"></i>Register</a>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container text-center">
+            <i class="fas fa-info-circle"></i>
+            <h2 class="mt-3 text-primary">About Our System</h2>
+            <p class="lead">Prevent fraud and streamline the examination process with our efficient Hall Ticket Generator. Secure, easy-to-use, and built for institutions.</p>
+        </div>
+    </section>
+
+    <!-- Student Portal -->
+    <section id="student">
+        <div class="container">
+            <div class="card card-custom p-4">
+                <h3 class="text-primary mb-3"><i class="fas fa-user-graduate me-2"></i>Student Portal</h3>
+                <p>Generate your Admit Card by entering your details.</p>
+                <a href="/student" class="btn btn-outline-primary mt-2"><i class="fas fa-arrow-right me-2"></i>Access Student Portal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examiner Portal -->
+    <section id="examiner">
+        <div class="container">
+            <div class="card card-custom p-4">
+                <h3 class="text-primary mb-3"><i class="fas fa-user-shield me-2"></i>Examiner Portal</h3>
+                <p>Verify Admit Card authenticity and ensure seamless processes.</p>
+                <a href="/examiner" class="btn btn-outline-primary mt-2"><i class="fas fa-arrow-right me-2"></i>Access Examiner Portal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Hall Ticket Generator | All Rights Reserved</p>
+        <div>
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-linkedin"></i>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-to-top"><i class="fas fa-chevron-up"></i></button>
+
+    <!-- Scripts -->
+    <script>
+        const scrollBtn = document.querySelector('.scroll-to-top');
+        window.addEventListener('scroll', () => {
+            scrollBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
+        });
+
+        scrollBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
